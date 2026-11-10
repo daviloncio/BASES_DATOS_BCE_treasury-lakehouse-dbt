@@ -1,0 +1,20 @@
+# dbt looks for this file in the project folder.
+# - "dev" runs locally (and in CI) on DuckDB, no credentials needed.
+# - "databricks" runs on a Databricks SQL warehouse. Set the three environment
+#   variables before running:  dbt build --target databricks
+treasury_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: treasury.duckdb
+      threads: 4
+
+    databricks:
+      type: databricks
+      catalog: workspace
+      schema: treasury
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 4

@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: gold_daily_cash_flows
+    description: Daily inflows, outflows and net flow per entity and currency, also in EUR.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["value_date", "entity_name", "currency"]
+    columns:
+      - name: net_flow_eur
+        data_tests:
+          - not_null
+
+  - name: gold_cash_position
+    description: >
+      Current balance of each bank account (opening balance plus all movements),
+      in local currency and converted to EUR at the latest available rate.
+    columns:
+      - name: account_id
+        data_tests:
+          - unique
+          - not_null
+      - name: closing_balance_eur
+        data_tests:
+          - not_null

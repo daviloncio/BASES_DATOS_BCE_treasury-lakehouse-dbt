@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: brz_bank_accounts
+    description: Raw bank account master data, as delivered by the source system.
+  - name: brz_cash_transactions
+    description: >
+      Raw cash movements per bank account. May contain duplicated rows and
+      inconsistently formatted currency codes.
+  - name: brz_fx_rates
+    description: Raw daily FX reference rates (1 EUR = X units of currency).

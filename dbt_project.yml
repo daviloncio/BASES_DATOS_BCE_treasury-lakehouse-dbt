@@ -1,0 +1,51 @@
+name: treasury_lakehouse
+version: "1.0.0"
+config-version: 2
+
+profile: treasury_lakehouse
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# Raw files are loaded as plain strings, exactly as a source system would deliver them.
+# Typing and cleaning happen in the silver layer.
+seeds:
+  treasury_lakehouse:
+    +schema: raw
+    bank_accounts:
+      +column_types:
+        account_id: string
+        entity_name: string
+        bank_name: string
+        currency: string
+        opening_balance: string
+        opening_date: string
+    cash_transactions:
+      +column_types:
+        transaction_id: string
+        account_id: string
+        value_date: string
+        currency: string
+        amount: string
+        category: string
+    fx_rates:
+      +column_types:
+        rate_date: string
+        currency: string
+        rate_per_eur: string
+
+models:
+  treasury_lakehouse:
+    bronze:
+      +schema: bronze
+      +materialized: view
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      +schema: gold
+      +materialized: table

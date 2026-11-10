@@ -1,0 +1,6 @@
+account_id,entity_name,bank_name,currency,opening_balance,opening_date
+ACC-ES-001,Alcora Holding SA,Banco Santander,EUR,2500000,2026-01-02
+ACC-ES-002,Alcora Holding SA,BBVA,EUR,1200000,2026-01-02
+ACC-UK-001,Alcora Trading UK Ltd,Barclays,GBP,800000,2026-01-02
+ACC-US-001,Alcora Americas Inc,JPMorgan Chase,USD,1500000,2026-01-02
+ACC-CH-001,Alcora Holding SA,UBS,CHF,400000,2026-01-02

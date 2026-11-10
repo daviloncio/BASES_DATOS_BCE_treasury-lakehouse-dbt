@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: slv_bank_accounts
+    description: Bank accounts with standardised text and proper data types.
+    columns:
+      - name: account_id
+        description: Unique bank account identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: currency
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["EUR", "USD", "GBP", "CHF"]
+      - name: opening_balance
+        data_tests:
+          - not_null
+
+  - name: slv_fx_rates
+    description: Daily FX rates, one row per date and currency (1 EUR = X currency).
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: ["rate_date", "currency"]
+    columns:
+      - name: rate_per_eur
+        data_tests:
+          - not_null
+
+  - name: slv_cash_transactions
+    description: >
+      Deduplicated cash transactions with clean currency codes, enriched with the
+      owning entity and converted to EUR using the rate of the value date.
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+      - name: account_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('slv_bank_accounts')
+                field: account_id
+      - name: currency
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["EUR", "USD", "GBP", "CHF"]
+      - name: flow_direction
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["inflow", "outflow"]
+      - name: amount_eur
+        description: Amount in EUR. Null would mean a missing FX rate for that date.
+        data_tests:
+          - not_null
